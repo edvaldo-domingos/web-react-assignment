@@ -23,7 +23,8 @@ function App() {
       <CssBaseline />
       <Navbar currentNavItem="Recipes">
         <Switch>
-          <Route exact path={"/"} component={RecipesView} />
+          <Route exact path={"/recipes"} component={RecipesView} />
+          <Route component={RecipesView} />
         </Switch>
       </Navbar>
     </Router>
