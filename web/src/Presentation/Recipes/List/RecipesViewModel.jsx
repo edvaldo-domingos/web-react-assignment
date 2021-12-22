@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import GetBrewersDataSource from "../../../Data/DataSource/API/GetBrewersDataSource";
 import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
 import GetBrewersDataRepository from "../../../Domain/Repository/Brewer/GetBrewersRepository";
-import GetRecipesDataRepository from "../../../Domain/Repository/Recipe/GetRecipesRepository";
+import GetRecipesDataRepository from "../../../Domain/Repository/Recipe/RecipesRepository";
 import GetBrewersUseCase from "../../../Domain/UseCase/Brewer/GetBrewersUseCase";
 import GetRecipesUseCase from "../../../Domain/UseCase/Recipe/GetRecipesUseCase";
+import { RECIPES_BAS_ROUTE } from "../../../utils/constants";
 
 export default function RecipesViewModel() {
   const limit = 5;
+  const history = useHistory();
   const [error, setError] = useState(0);
   const [brewerId, setBrewerId] = useState(0);
   const [recipes, setRecipes] = useState([]);
@@ -89,8 +92,13 @@ export default function RecipesViewModel() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
   const handleOnChangeBrewer = (event) => {
     setBrewerId(event.target.value);
+  };
+
+  const handleRowClick = (id) => {
+    history.push(`${RECIPES_BAS_ROUTE}/${id}/info`);
   };
 
   return {
@@ -103,6 +111,7 @@ export default function RecipesViewModel() {
     brewers,
     handleChangePage,
     handleOnChangeBrewer,
+    handleRowClick,
     setPage,
     getRecipes,
     setBrewerId,

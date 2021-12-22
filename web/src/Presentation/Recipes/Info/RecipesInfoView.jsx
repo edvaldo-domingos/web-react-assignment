@@ -6,16 +6,21 @@ import Button from "@mui/material/Button";
 import { ICONS } from "../../../utils/icons";
 import { ACTION_BUTTONS } from "../../../utils/constants";
 import ConfirmDialog from "../../../components/ConfirmDialog";
+import BasicAlert from "../../../components/Alert";
 
 function RecipesInfoView() {
   const {
     recipe,
     isDeleting,
+    alertMessage,
+    severity,
     handleOnEditClick,
     handleOnDeleteClick,
     handleOnConfirm,
     handleOnCancel,
+    clearNotification,
   } = useViewModel();
+
   const {
     title,
     description,
@@ -44,6 +49,7 @@ function RecipesInfoView() {
               startIcon={ICONS[ACTION_BUTTONS.edit.name]}
               size="medium"
               onClick={handleOnEditClick}
+              disabled={isDeleting || Boolean(alertMessage)}
             >
               {ACTION_BUTTONS.edit.name}
             </Button>
@@ -55,6 +61,7 @@ function RecipesInfoView() {
               startIcon={ICONS[ACTION_BUTTONS.delete.name]}
               size="medium"
               onClick={handleOnDeleteClick}
+              disabled={isDeleting || Boolean(alertMessage)}
             >
               {ACTION_BUTTONS.delete.name}
             </Button>
@@ -92,6 +99,16 @@ function RecipesInfoView() {
           <b>Brewer</b>
           <p>{brewer}</p>
         </label>
+
+        {alertMessage &&
+          setTimeout(() => {
+            clearNotification();
+          }, 5000)}
+        <Grid container style={{ marginTop: "20px" }}>
+          {alertMessage && (
+            <BasicAlert message={alertMessage} severity={severity} />
+          )}
+        </Grid>
       </Paper>
       {isDeleting && (
         <ConfirmDialog
@@ -101,10 +118,6 @@ function RecipesInfoView() {
           handleOnCancel={handleOnCancel}
         />
       )}
-
-      {/* TODO: Add a snak bar or an alert to tell the user when he sucessfully deleted something add 
-      - Disable Delete and Edit button 
-      - Add time about after 5 seconts move to the recipes list  */}
     </ViewWrapper>
   );
 }

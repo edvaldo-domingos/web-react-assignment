@@ -33,6 +33,7 @@ function RecipesView() {
     brewers,
     handleChangePage,
     handleOnChangeBrewer,
+    handleRowClick,
     getRecipesCount,
     getRecipes,
     getBrewers,
@@ -99,7 +100,7 @@ function RecipesView() {
                     role="checkbox"
                     tabIndex={-1}
                     key={uuidv4()}
-                    onClick={() => console.log(row)}
+                    onClick={() => handleRowClick(row.id)}
                   >
                     {columns.map((column) => {
                       const value = row[column.id];

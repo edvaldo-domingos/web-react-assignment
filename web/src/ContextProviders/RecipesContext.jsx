@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import RecipesDataSource from "../Data/DataSource/API/RecipesDataSource";
-import GetRecipesDataRepository from "../Domain/Repository/Recipe/GetRecipesRepository";
+import RecipesDataRepository from "../Domain/Repository/Recipe/RecipesRepository";
 import GetRecipesUseCase from "../Domain/UseCase/Recipe/GetRecipesUseCase";
 
 export const RecipesContext = createContext({});
@@ -9,7 +9,7 @@ export const RecipesContextProvider = ({ children }) => {
   const limit = 5;
 
   const UseCase = new GetRecipesUseCase(
-    new GetRecipesDataRepository(new RecipesDataSource())
+    new RecipesDataRepository(new RecipesDataSource())
   );
 
   useEffect(() => {

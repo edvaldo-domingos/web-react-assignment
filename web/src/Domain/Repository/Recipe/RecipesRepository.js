@@ -1,5 +1,5 @@
 
-export default class GetRecipesDataRepository {
+export default class RecipesDataRepository {
     dataSource = null;
 
    constructor(_dataSource){
@@ -9,5 +9,9 @@ export default class GetRecipesDataRepository {
    
    async getRecipes(paginationParams) {
        return await this.dataSource.getRecipes(paginationParams);
+   }
+
+   async deleteRecipe(id) {
+       return await this.dataSource.deleteRecipe(id);
    }
 }
