@@ -101,6 +101,10 @@ export default function RecipesViewModel() {
     history.push(`${RECIPES_BAS_ROUTE}/${id}/info`);
   };
 
+  const handleOnCreateRecipe = (id) => {
+    history.push(`${RECIPES_BAS_ROUTE}/new`);
+  };
+
   return {
     recipes,
     error,
@@ -111,6 +115,7 @@ export default function RecipesViewModel() {
     brewers,
     handleChangePage,
     handleOnChangeBrewer,
+    handleOnCreateRecipe,
     handleRowClick,
     setPage,
     getRecipes,

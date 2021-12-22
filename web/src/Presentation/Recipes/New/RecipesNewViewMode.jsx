@@ -8,9 +8,10 @@ import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
 import DeleteRecipeUseCase from "../../../Domain/UseCase/Recipe/DeleteRecipeUseCase";
 import RecipesRepository from "../../../Domain/Repository/Recipe/RecipesRepository";
 import { RECIPES_BAS_ROUTE, RECIPE_API_URL } from "../../../utils/constants";
+import { isEqual } from "lodash";
 // import GetRecipesUseCase from "../../Domain/UseCase/Recipe/GetRecipesUseCase";
 
-export default function RecipesInfoModel() {
+export default function RecipesNewViewModel() {
   const initialState = {
     title: "",
     description: "",
@@ -28,36 +29,30 @@ export default function RecipesInfoModel() {
     new RecipesRepository(new RecipesDataSource())
   );
 
-  const { recipes } = useContext(MainContext);
   const history = useHistory();
+  const { brewers, recipes } = useContext(MainContext);
+
   const { id } = useParams();
   const [error, setError] = useState(null);
   const [recipe, setRecipe] = useState(initialState);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [severity, setSeverity] = useState("success");
   const [alertMessage, setAlertMessage] = useState("");
+  const [confirmMessage, setConfirmMessage] = useState("");
 
   useEffect(() => {
     return () => {
       setAlertMessage("");
       setSeverity("");
-      setIsDeleting(false);
+      setIsSaving(false);
     };
   }, []);
 
-  useEffect(() => {
-    const recipe = recipes.find(
-      (contextRecipe) => contextRecipe.id === parseInt(id, 10)
-    );
-
-    if (recipe) setRecipe(recipe);
-  }, [id, recipes]);
-
-  const onDelete = async () => {
+  const onConfirm = async () => {
     const { result, error } = await UseCase.deleteRecipe(id);
 
     if (result) {
-      setIsDeleting(!isDeleting);
+      setIsSaving(!isSaving);
       setAlertMessage("Successfully deleted recipe");
       setSeverity("success");
     }
@@ -68,35 +63,52 @@ export default function RecipesInfoModel() {
   const clearNotification = () => {
     setAlertMessage("");
     setSeverity("");
-    setIsDeleting(false);
+    setIsSaving(false);
     history.replace(`${RECIPES_BAS_ROUTE}`);
   };
 
-  const handleOnEditClick = () => {
-    history.push(`${RECIPES_BAS_ROUTE}/${id}/detail`);
+  const handleOnEditClick = () => {};
+
+  const handleOnFormChange = (event) => {
+    console.log(event.target.name, event.target.value);
+    setRecipe({ ...recipe, [event.target.name]: event.target.value });
   };
 
-  const handleOnDeleteClick = () => {
-    setIsDeleting(!isDeleting);
+  const handleOnCancelClick = () => {
+    if (!isFormEdited()) {
+      return history.push(`${RECIPES_BAS_ROUTE}`);
+    }
+
+    setConfirmMessage(
+      "You have unsaved work, would like to proceed cancelling"
+    );
   };
 
   const handleOnConfirm = () => {
-    onDelete();
+    history.push(`${RECIPES_BAS_ROUTE}`);
   };
-  const handleOnCancel = () => {
-    setIsDeleting(false);
+
+  const isFormEdited = () => {
+    return !isEqual(initialState, recipe);
+  };
+
+  const handleOnCancelConfirmDialog = () => {
+    setConfirmMessage("");
   };
 
   return {
     recipe,
-    isDeleting,
+    brewers,
+    confirmMessage,
+    isSaving,
     alertMessage,
     severity,
-    setIsDeleting,
+    setIsSaving,
+    handleOnFormChange,
     handleOnEditClick,
-    handleOnDeleteClick,
+    handleOnCancelClick,
     handleOnConfirm,
-    handleOnCancel,
+    handleOnCancelConfirmDialog,
     clearNotification,
   };
 }

@@ -12,6 +12,10 @@ import TableRow from "@mui/material/TableRow";
 import SelectField from "../../../components/SelectField";
 import useViewModel from "./RecipesViewModel";
 import { v4 as uuidv4 } from "uuid";
+import { Button } from "@mui/material";
+import { ICONS } from "../../../utils/icons";
+import { ACTION_BUTTONS } from "../../../utils/constants";
+import IconButton from "@mui/material/IconButton";
 
 const StyledTableCell = styled(TableCell)``;
 const StyledTableRow = styled(TableRow)``;
@@ -33,6 +37,7 @@ function RecipesView() {
     brewers,
     handleChangePage,
     handleOnChangeBrewer,
+    handleOnCreateRecipe,
     handleRowClick,
     getRecipesCount,
     getRecipes,
@@ -66,6 +71,21 @@ function RecipesView() {
       label: "brew method",
       minWidth: 170,
     },
+    {
+      id: "created",
+      minWidth: 170,
+      align: "right",
+      component: (
+        <IconButton
+          variant="outlined"
+          size="medium"
+          onClick={handleOnCreateRecipe}
+          color="success"
+        >
+          {ICONS[ACTION_BUTTONS.create.name]}
+        </IconButton>
+      ),
+    },
   ];
 
   return (
@@ -87,7 +107,8 @@ function RecipesView() {
                     align={column.align}
                     style={{ minWidth: column.minWidth }}
                   >
-                    {column.label}
+                    {column?.label && column?.label}
+                    {column?.component}
                   </StyledTableCell>
                 ))}
               </StyledTableRow>

@@ -6,18 +6,19 @@ import Select from "@mui/material/Select";
 
 import { v4 as uuidv4 } from "uuid";
 
-function SelectField({ value, handleChange, options, label }) {
+function SelectField({ value, handleChange, options, label, name }) {
   return (
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
       <Select
-        labelId="demo-simple-select-label"
+        // labelId="demo-simple-select-label"
         id="demo-simple-select"
+        name={name}
         value={value}
-        label="Brewer"
+        label={label}
         onChange={handleChange}
       >
-        {options.map((option) => (
+        {(options || []).map((option) => (
           <MenuItem value={option.value} key={uuidv4()}>
             {option.label}
           </MenuItem>

@@ -15,8 +15,12 @@ export const ACTION_BUTTONS = {
     edit: {
         name: "Edit"
     },
+
     save: {
         name: "Save"
+    },
+    create: {
+        name: "Create"
     },
     yes: {
         name: "Yes"
@@ -25,7 +29,55 @@ export const ACTION_BUTTONS = {
     cancel: {
         name: "Cancel"
     }
-}
+};
+
+
+
+export const beanTypes = [
+    {
+      label: "Arabica",
+      value: "arabica",
+    },
+    {
+      label: "Robusta",
+      value: "robusta",
+    },
+    {
+      label: "Liberica",
+      value: "liberica",
+    },
+    {
+      label: "Excelsa",
+      value: "excelsa",
+    },
+  ];
+
+export const brewTypes = [
+    {
+      label: "Pour Over/Drip: Coffee Cone",
+      value: "coffe_cone",
+    },
+    {
+      label: "Pour Over/Drip: Chemex",
+      value: "chemex",
+    },
+    {
+      label: "Plunger/Press: French Press",
+      value: "french",
+    },
+    {
+      label: "Plunger/Press: AeroPress",
+      value: "aeroPress",
+    },
+    {
+      label: "Percolate: Stovetop Moka Pot",
+      value: "stovetop",
+    },
+    {
+      label: "Vacuum: Siphon",
+      value: "siphon",
+    },
+  ];
 
 export const RECIPES_BAS_ROUTE = "/recipes"
 export const BREWERS_BAS_ROUTE = "/brewers"

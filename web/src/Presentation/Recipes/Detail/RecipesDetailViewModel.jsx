@@ -10,7 +10,7 @@ import RecipesRepository from "../../../Domain/Repository/Recipe/RecipesReposito
 import { RECIPES_BAS_ROUTE, RECIPE_API_URL } from "../../../utils/constants";
 // import GetRecipesUseCase from "../../Domain/UseCase/Recipe/GetRecipesUseCase";
 
-export default function RecipesInfoModel() {
+export default function RecipesDetailViewModel() {
   const initialState = {
     title: "",
     description: "",
@@ -28,14 +28,16 @@ export default function RecipesInfoModel() {
     new RecipesRepository(new RecipesDataSource())
   );
 
-  const { recipes } = useContext(MainContext);
   const history = useHistory();
+  const { brewers, recipes } = useContext(MainContext);
+
   const { id } = useParams();
   const [error, setError] = useState(null);
   const [recipe, setRecipe] = useState(initialState);
   const [isDeleting, setIsDeleting] = useState(false);
   const [severity, setSeverity] = useState("success");
   const [alertMessage, setAlertMessage] = useState("");
+  const [confirmMessage, setConfirmMessage] = useState("");
 
   useEffect(() => {
     return () => {
@@ -44,14 +46,6 @@ export default function RecipesInfoModel() {
       setIsDeleting(false);
     };
   }, []);
-
-  useEffect(() => {
-    const recipe = recipes.find(
-      (contextRecipe) => contextRecipe.id === parseInt(id, 10)
-    );
-
-    if (recipe) setRecipe(recipe);
-  }, [id, recipes]);
 
   const onDelete = async () => {
     const { result, error } = await UseCase.deleteRecipe(id);
@@ -76,7 +70,7 @@ export default function RecipesInfoModel() {
     history.push(`${RECIPES_BAS_ROUTE}/${id}/detail`);
   };
 
-  const handleOnDeleteClick = () => {
+  const handleOnDeleteClick = (event) => {
     setIsDeleting(!isDeleting);
   };
 
@@ -89,6 +83,8 @@ export default function RecipesInfoModel() {
 
   return {
     recipe,
+    brewers,
+    confirmMessage,
     isDeleting,
     alertMessage,
     severity,

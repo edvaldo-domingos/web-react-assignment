@@ -8,12 +8,14 @@ import { CssBaseline } from "@material-ui/core";
 import Navbar from "./components/Navbar";
 import RecipesView from "./Presentation/Recipes/List/RecipesView";
 import RecipesInfoView from "./Presentation/Recipes/Info/RecipesInfoView";
-import { RecipesContextProvider } from "./ContextProviders/RecipesContext";
+import { MainContextProvider } from "./ContextProviders/MainContext";
 import { RECIPES_BAS_ROUTE } from "./utils/constants";
+// import RecipesDetailView from "./Presentation/Recipes/Detail/RecipesDetailView";
+import RecipesNewView from "./Presentation/Recipes/New/RecipesNewView";
 
 function App() {
   return (
-    <RecipesContextProvider>
+    <MainContextProvider>
       <Router>
         <CssBaseline />
         <Navbar currentNavItem="Recipes">
@@ -22,23 +24,18 @@ function App() {
             <Route
               exact
               path={`${RECIPES_BAS_ROUTE}/new`}
-              component={RecipesView}
+              component={RecipesNewView}
             />
             <Route
               exact
               path={`${RECIPES_BAS_ROUTE}/:id/info`}
               component={RecipesInfoView}
             />
-            <Route
-              exact
-              path={`${RECIPES_BAS_ROUTE}/:id/detail`}
-              component={RecipesView}
-            />
             <Redirect from="*" to={RECIPES_BAS_ROUTE} />
           </Switch>
         </Navbar>
       </Router>
-    </RecipesContextProvider>
+    </MainContextProvider>
   );
 }
 

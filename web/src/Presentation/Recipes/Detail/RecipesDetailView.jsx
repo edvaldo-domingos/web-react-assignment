@@ -1,6 +1,6 @@
 import { ViewWrapper } from "../../../components/ViewWrapper";
 import Paper from "@mui/material/Paper";
-import useViewModel from "./RecipesNewViewMode";
+import useViewModel from "./RecipesDetailViewModel";
 import { Grid } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { ICONS } from "../../../utils/icons";
@@ -10,19 +10,18 @@ import BasicAlert from "../../../components/Alert";
 import FormTextField from "../../../components/FormTextField";
 import SelectField from "../../../components/SelectField";
 
-function RecipesNewView() {
+function RecipesDetailView() {
   const {
     recipe,
     brewers,
     confirmMessage,
-    isSaving,
+    isDeleting,
     alertMessage,
     severity,
     handleOnEditClick,
-    handleOnCancelClick,
-    handleOnFormChange,
+    handleOnDeleteClick,
     handleOnConfirm,
-    handleOnCancelConfirmDialog,
+    handleOnCancel,
     clearNotification,
   } = useViewModel();
 
@@ -55,7 +54,7 @@ function RecipesNewView() {
               size="medium"
               color="success"
               onClick={handleOnEditClick}
-              disabled={isSaving || Boolean(alertMessage)}
+              disabled={isDeleting || Boolean(alertMessage)}
             >
               {ACTION_BUTTONS.save.name}
             </Button>
@@ -66,8 +65,8 @@ function RecipesNewView() {
               color="error"
               startIcon={ICONS[ACTION_BUTTONS.cancel.name]}
               size="medium"
-              onClick={handleOnCancelClick}
-              disabled={isSaving || Boolean(alertMessage)}
+              onClick={handleOnDeleteClick}
+              disabled={isDeleting || Boolean(alertMessage)}
             >
               {ACTION_BUTTONS.cancel.name}
             </Button>
@@ -83,43 +82,38 @@ function RecipesNewView() {
             <FormTextField
               label={"Title"}
               value={title}
-              onChange={handleOnFormChange}
               error={null}
-              name={"title"}
+              name={title}
             />
           </Grid>
           <Grid item xs={12}>
             <FormTextField
               label={"Description"}
               value={description}
-              onChange={handleOnFormChange}
               error={null}
-              name={"description"}
+              name={title}
             />
           </Grid>
           <Grid item xs={12}>
             <SelectField
-              handleChange={handleOnFormChange}
+              handleChange={() => null}
               value={bean_type}
               label={"Bean type"}
               options={beanTypes}
-              name={"bean_type"}
             />
           </Grid>
           <Grid item xs={12}>
             <FormTextField
               label={"Brew time (in minutes)"}
               value={brew_time}
-              onChange={handleOnFormChange}
               error={null}
-              name={"brew_time"}
+              name={title}
               type="number"
             />
           </Grid>
           <Grid item xs={12}>
             <SelectField
-              name={"brew_method"}
-              handleChange={handleOnFormChange}
+              handleChange={() => null}
               value={brew_method}
               label={"Brew method"}
               options={brewTypes}
@@ -127,27 +121,24 @@ function RecipesNewView() {
           </Grid>
           <Grid item xs={12}>
             <FormTextField
-              name={"taste_notes"}
               label={"Taste notes"}
-              onChange={handleOnFormChange}
               value={taste_notes}
               error={null}
+              name={title}
             />
           </Grid>
           <Grid item xs={12}>
             <FormTextField
               label={"Tags"}
               value={tags}
-              onChange={handleOnFormChange}
               error={null}
-              name={"tags"}
+              name={title}
             />
           </Grid>
           <Grid item xs={12}>
             <SelectField
-              handleChange={handleOnFormChange}
+              handleChange={() => null}
               value={brewer}
-              name={"brewer"}
               label={"Brewer"}
               options={brewers}
             />
@@ -164,16 +155,16 @@ function RecipesNewView() {
           )}
         </Grid>
       </Paper>
-      {confirmMessage && (
+      {isDeleting && (
         <ConfirmDialog
-          setOpen={handleOnCancelConfirmDialog}
+          setOpen={handleOnDeleteClick}
           message={confirmMessage}
           handleOnConfirm={handleOnConfirm}
-          handleOnCancel={handleOnCancelConfirmDialog}
+          handleOnCancel={handleOnCancel}
         />
       )}
     </ViewWrapper>
   );
 }
 
-export default RecipesNewView;
+export default RecipesDetailView;
