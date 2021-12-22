@@ -1,9 +1,15 @@
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import PeopleIcon from '@mui/icons-material/People';
-import {NAV_ITEMS} from "./constants";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from '@mui/icons-material/Edit';
+import {NAV_ITEMS, ACTION_BUTTONS} from "./constants";
 
 
 export const ICONS  =   {
     [NAV_ITEMS.users.name]: <PeopleIcon />,
     [NAV_ITEMS.recipes.name]: <ReceiptIcon />,
+    [ACTION_BUTTONS.delete.name]: <DeleteIcon />,
+    [ACTION_BUTTONS.save.name]: <SaveIcon />,
+    [ACTION_BUTTONS.edit.name]: <EditIcon />,
 }

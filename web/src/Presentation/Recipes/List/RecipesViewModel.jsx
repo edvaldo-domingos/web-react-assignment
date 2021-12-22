@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import GetBrewersDataSource from "../../Data/DataSource/API/GetBrewersDataSource";
-import GetRecipesDataSource from "../../Data/DataSource/API/GetRecipesDataSource";
-import GetBrewersDataRepository from "../../Domain/Repository/Brewer/GetBrewersRepository";
-import GetRecipesDataRepository from "../../Domain/Repository/Recipe/GetRecipesRepository";
-import GetBrewersUseCase from "../../Domain/UseCase/Brewer/GetBrewersUseCase";
-import GetRecipesUseCase from "../../Domain/UseCase/Recipe/GetRecipesUseCase";
+import GetBrewersDataSource from "../../../Data/DataSource/API/GetBrewersDataSource";
+import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
+import GetBrewersDataRepository from "../../../Domain/Repository/Brewer/GetBrewersRepository";
+import GetRecipesDataRepository from "../../../Domain/Repository/Recipe/GetRecipesRepository";
+import GetBrewersUseCase from "../../../Domain/UseCase/Brewer/GetBrewersUseCase";
+import GetRecipesUseCase from "../../../Domain/UseCase/Recipe/GetRecipesUseCase";
 
 export default function RecipesViewModel() {
   const limit = 5;
@@ -28,7 +28,7 @@ export default function RecipesViewModel() {
   }, [brewerId]);
 
   const UseCase = new GetRecipesUseCase(
-    new GetRecipesDataRepository(new GetRecipesDataSource())
+    new GetRecipesDataRepository(new RecipesDataSource())
   );
 
   const BrewerUseCase = new GetBrewersUseCase(

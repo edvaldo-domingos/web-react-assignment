@@ -2,7 +2,7 @@ import axios from "axios";
 import {headers} from '../../../utils/api'
 import {RECIPE_API_URL} from '../../../utils/constants'
 
-export default class GetRecipesDataSource {
+export default class RecipesDataSource {
     dataSource = null;
 
    constructor(_dataSource){
@@ -23,4 +23,5 @@ export default class GetRecipesDataSource {
        }
        
    }
+
 }

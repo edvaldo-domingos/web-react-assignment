@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ViewWrapper } from "../../components/ViewWrapper";
+import { ViewWrapper } from "../../../components/ViewWrapper";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import SelectField from "../../components/SelectField";
+import SelectField from "../../../components/SelectField";
 import useViewModel from "./RecipesViewModel";
 import { v4 as uuidv4 } from "uuid";
 
