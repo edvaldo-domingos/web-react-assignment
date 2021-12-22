@@ -28,16 +28,19 @@ function RecipesView() {
     error,
     page,
     count,
-    getRecipesCount,
-    setPage,
-    getRecipes,
     rowsPerPage,
+    brewerId,
+    brewers,
+    handleChangePage,
+    handleOnChangeBrewer,
+    getRecipesCount,
+    getRecipes,
+    getBrewers,
   } = useViewModel();
-
-  const [brewerId, setBrewerId] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
+      await getBrewers();
       await getRecipesCount();
       await getRecipes();
     }
@@ -64,22 +67,13 @@ function RecipesView() {
     },
   ];
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
   return (
     <ViewWrapper>
       <SelectField
-        handleChange={(event) => setBrewerId(event.target.value)}
+        handleChange={handleOnChangeBrewer}
         value={brewerId}
         label={"Brewer"}
-        options={[
-          { name: "All", value: 0, label: "All", id: 0 },
-          { name: "Edvaldo", value: 1, label: "Edvaldo", id: 1 },
-          { name: "Tester", value: 2, label: "Tester", id: 2 },
-          { name: "John", value: 3, label: "John", id: 3 },
-        ]}
+        options={brewers}
       />
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "20px" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
