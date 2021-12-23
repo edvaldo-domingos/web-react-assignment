@@ -1,15 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { MainContext } from "../../../ContextProviders/MainContext";
-// import GetBrewersDataSource from "../../Data/DataSource/API/GetBrewersDataSource";
-// import GetBrewersDataRepository from "../../Domain/Repository/Brewer/GetBrewersRepository";
-// import GetRecipesDataRepository from "../../Domain/Repository/Recipe/GetRecipesRepository";
 import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
-import DeleteRecipeUseCase from "../../../Domain/UseCase/Recipe/DeleteRecipeUseCase";
+import CreateRecipeUseCase from "../../../Domain/UseCase/Recipe/CreateRecipeUseCase";
 import RecipesRepository from "../../../Domain/Repository/Recipe/RecipesRepository";
-import { RECIPES_BAS_ROUTE, RECIPE_API_URL } from "../../../utils/constants";
-import { isEqual } from "lodash";
-// import GetRecipesUseCase from "../../Domain/UseCase/Recipe/GetRecipesUseCase";
+import { RECIPES_BAS_ROUTE } from "../../../utils/constants";
+import { isEqual, reduce } from "lodash";
 
 export default function RecipesNewViewModel() {
   const initialState = {
@@ -20,19 +16,16 @@ export default function RecipesNewViewModel() {
     brew_method: "",
     taste_notes: "",
     tags: "",
-    id: 0,
-    brewer_id: 0,
-    brewer: "",
+    brewer_id: "",
   };
 
-  const UseCase = new DeleteRecipeUseCase(
+  const UseCase = new CreateRecipeUseCase(
     new RecipesRepository(new RecipesDataSource())
   );
 
   const history = useHistory();
-  const { brewers, recipes } = useContext(MainContext);
+  const { brewers, getRecipes, setAppBarTitle } = useContext(MainContext);
 
-  const { id } = useParams();
   const [error, setError] = useState(null);
   const [recipe, setRecipe] = useState(initialState);
   const [isSaving, setIsSaving] = useState(false);
@@ -41,6 +34,7 @@ export default function RecipesNewViewModel() {
   const [confirmMessage, setConfirmMessage] = useState("");
 
   useEffect(() => {
+    setAppBarTitle("Create a New Recipe");
     return () => {
       setAlertMessage("");
       setSeverity("");
@@ -48,12 +42,13 @@ export default function RecipesNewViewModel() {
     };
   }, []);
 
-  const onConfirm = async () => {
-    const { result, error } = await UseCase.deleteRecipe(id);
+  const onSave = async () => {
+    const { result, error } = await UseCase.createRecipe(recipe);
 
     if (result) {
-      setIsSaving(!isSaving);
-      setAlertMessage("Successfully deleted recipe");
+      await getRecipes();
+      setRecipe(result);
+      setAlertMessage("Successfully created recipe");
       setSeverity("success");
     }
 
@@ -63,15 +58,49 @@ export default function RecipesNewViewModel() {
   const clearNotification = () => {
     setAlertMessage("");
     setSeverity("");
-    setIsSaving(false);
-    history.replace(`${RECIPES_BAS_ROUTE}`);
+    setIsSaving(!isSaving);
+    history.replace(`${RECIPES_BAS_ROUTE}/${recipe.id}/info`);
   };
 
-  const handleOnEditClick = () => {};
+  const handleOnSaveClick = () => {
+    if (isFormValid()) {
+      setIsSaving(true);
+      onSave();
+    }
+  };
+
+  const isFormValid = () => {
+    const filledValues = reduce(
+      initialState,
+      function (result, value, key) {
+        return isEqual(value, recipe[key]) ? result : result.concat(key);
+      },
+      []
+    ).reduce((acc, curr) => ((acc[curr] = ""), acc), {});
+
+    const errorObj = {};
+    for (let property in recipe) {
+      if (!(property in filledValues)) {
+        errorObj[property] = true;
+      }
+    }
+
+    setError(errorObj);
+    return !Object.keys(errorObj).length > 0;
+  };
 
   const handleOnFormChange = (event) => {
-    console.log(event.target.name, event.target.value);
     setRecipe({ ...recipe, [event.target.name]: event.target.value });
+
+    if (error) {
+      const newErrors = { ...error };
+      if (!event.target.value) {
+        newErrors[event.target.name] = true;
+      } else {
+        delete newErrors[event.target.name];
+      }
+      setError(newErrors);
+    }
   };
 
   const handleOnCancelClick = () => {
@@ -103,9 +132,11 @@ export default function RecipesNewViewModel() {
     isSaving,
     alertMessage,
     severity,
+    error,
+    isFormEdited,
     setIsSaving,
     handleOnFormChange,
-    handleOnEditClick,
+    handleOnSaveClick,
     handleOnCancelClick,
     handleOnConfirm,
     handleOnCancelConfirmDialog,

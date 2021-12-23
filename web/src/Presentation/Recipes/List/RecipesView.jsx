@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { ViewWrapper } from "../../../components/ViewWrapper";
 import Paper from "@mui/material/Paper";
@@ -12,7 +12,6 @@ import TableRow from "@mui/material/TableRow";
 import SelectField from "../../../components/SelectField";
 import useViewModel from "./RecipesViewModel";
 import { v4 as uuidv4 } from "uuid";
-import { Button } from "@mui/material";
 import { ICONS } from "../../../utils/icons";
 import { ACTION_BUTTONS } from "../../../utils/constants";
 import IconButton from "@mui/material/IconButton";
@@ -29,7 +28,6 @@ const StyledTableHead = styled(TableHead)`
 function RecipesView() {
   const {
     recipes,
-    error,
     page,
     count,
     rowsPerPage,

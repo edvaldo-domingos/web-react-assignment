@@ -14,11 +14,13 @@ function RecipesNewView() {
   const {
     recipe,
     brewers,
+    error,
     confirmMessage,
     isSaving,
     alertMessage,
     severity,
-    handleOnEditClick,
+    isFormEdited,
+    handleOnSaveClick,
     handleOnCancelClick,
     handleOnFormChange,
     handleOnConfirm,
@@ -34,7 +36,7 @@ function RecipesNewView() {
     brew_method,
     taste_notes,
     tags,
-    brewer,
+    brewer_id,
   } = recipe;
 
   return (
@@ -54,8 +56,8 @@ function RecipesNewView() {
               startIcon={ICONS[ACTION_BUTTONS.save.name]}
               size="medium"
               color="success"
-              onClick={handleOnEditClick}
-              disabled={isSaving || Boolean(alertMessage)}
+              onClick={handleOnSaveClick}
+              disabled={!isFormEdited() || isSaving || Boolean(alertMessage)}
             >
               {ACTION_BUTTONS.save.name}
             </Button>
@@ -84,7 +86,7 @@ function RecipesNewView() {
               label={"Title"}
               value={title}
               onChange={handleOnFormChange}
-              error={null}
+              error={error?.title}
               name={"title"}
             />
           </Grid>
@@ -93,7 +95,7 @@ function RecipesNewView() {
               label={"Description"}
               value={description}
               onChange={handleOnFormChange}
-              error={null}
+              error={error?.description}
               name={"description"}
             />
           </Grid>
@@ -104,6 +106,7 @@ function RecipesNewView() {
               label={"Bean type"}
               options={beanTypes}
               name={"bean_type"}
+              error={error?.bean_type}
             />
           </Grid>
           <Grid item xs={12}>
@@ -111,7 +114,7 @@ function RecipesNewView() {
               label={"Brew time (in minutes)"}
               value={brew_time}
               onChange={handleOnFormChange}
-              error={null}
+              error={error?.brew_time}
               name={"brew_time"}
               type="number"
             />
@@ -123,6 +126,7 @@ function RecipesNewView() {
               value={brew_method}
               label={"Brew method"}
               options={brewTypes}
+              error={error?.brew_method}
             />
           </Grid>
           <Grid item xs={12}>
@@ -131,7 +135,7 @@ function RecipesNewView() {
               label={"Taste notes"}
               onChange={handleOnFormChange}
               value={taste_notes}
-              error={null}
+              error={error?.taste_notes}
             />
           </Grid>
           <Grid item xs={12}>
@@ -139,17 +143,18 @@ function RecipesNewView() {
               label={"Tags"}
               value={tags}
               onChange={handleOnFormChange}
-              error={null}
               name={"tags"}
+              error={error?.tags}
             />
           </Grid>
           <Grid item xs={12}>
             <SelectField
               handleChange={handleOnFormChange}
-              value={brewer}
-              name={"brewer"}
+              value={brewer_id}
+              name={"brewer_id"}
               label={"Brewer"}
               options={brewers}
+              error={error?.brewer_id}
             />
           </Grid>
         </Grid>
@@ -157,7 +162,7 @@ function RecipesNewView() {
         {alertMessage &&
           setTimeout(() => {
             clearNotification();
-          }, 5000)}
+          }, 3000)}
         <Grid container style={{ marginTop: "20px" }}>
           {alertMessage && (
             <BasicAlert message={alertMessage} severity={severity} />

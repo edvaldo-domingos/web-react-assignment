@@ -14,4 +14,8 @@ export default class RecipesDataRepository {
    async deleteRecipe(id) {
        return await this.dataSource.deleteRecipe(id);
    }
+
+   async createRecipe(payload) {
+       return await this.dataSource.createRecipe(payload);
+   }
 }

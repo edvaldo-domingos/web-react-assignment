@@ -1,14 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { MainContext } from "../../../ContextProviders/MainContext";
-// import GetBrewersDataSource from "../../Data/DataSource/API/GetBrewersDataSource";
-// import GetBrewersDataRepository from "../../Domain/Repository/Brewer/GetBrewersRepository";
-// import GetRecipesDataRepository from "../../Domain/Repository/Recipe/GetRecipesRepository";
 import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
 import DeleteRecipeUseCase from "../../../Domain/UseCase/Recipe/DeleteRecipeUseCase";
 import RecipesRepository from "../../../Domain/Repository/Recipe/RecipesRepository";
-import { RECIPES_BAS_ROUTE, RECIPE_API_URL } from "../../../utils/constants";
-// import GetRecipesUseCase from "../../Domain/UseCase/Recipe/GetRecipesUseCase";
+import { RECIPES_BAS_ROUTE } from "../../../utils/constants";
 
 export default function RecipesInfoModel() {
   const initialState = {
@@ -28,7 +24,7 @@ export default function RecipesInfoModel() {
     new RecipesRepository(new RecipesDataSource())
   );
 
-  const { recipes } = useContext(MainContext);
+  const { recipes, setAppBarTitle } = useContext(MainContext);
   const history = useHistory();
   const { id } = useParams();
   const [error, setError] = useState(null);
@@ -38,6 +34,8 @@ export default function RecipesInfoModel() {
   const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
+    setAppBarTitle("Recipe Detail");
+
     return () => {
       setAlertMessage("");
       setSeverity("");
@@ -46,7 +44,7 @@ export default function RecipesInfoModel() {
   }, []);
 
   useEffect(() => {
-    const recipe = recipes.find(
+    const recipe = (recipes || []).find(
       (contextRecipe) => contextRecipe.id === parseInt(id, 10)
     );
 
@@ -72,8 +70,8 @@ export default function RecipesInfoModel() {
     history.replace(`${RECIPES_BAS_ROUTE}`);
   };
 
-  const handleOnEditClick = () => {
-    history.push(`${RECIPES_BAS_ROUTE}/${id}/detail`);
+  const handleOnBackClick = () => {
+    history.push(`${RECIPES_BAS_ROUTE}`);
   };
 
   const handleOnDeleteClick = () => {
@@ -93,7 +91,7 @@ export default function RecipesInfoModel() {
     alertMessage,
     severity,
     setIsDeleting,
-    handleOnEditClick,
+    handleOnBackClick,
     handleOnDeleteClick,
     handleOnConfirm,
     handleOnCancel,

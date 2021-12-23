@@ -10,7 +10,6 @@ import RecipesView from "./Presentation/Recipes/List/RecipesView";
 import RecipesInfoView from "./Presentation/Recipes/Info/RecipesInfoView";
 import { MainContextProvider } from "./ContextProviders/MainContext";
 import { RECIPES_BAS_ROUTE } from "./utils/constants";
-// import RecipesDetailView from "./Presentation/Recipes/Detail/RecipesDetailView";
 import RecipesNewView from "./Presentation/Recipes/New/RecipesNewView";
 
 function App() {

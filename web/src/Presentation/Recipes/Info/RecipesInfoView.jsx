@@ -14,7 +14,7 @@ function RecipesInfoView() {
     isDeleting,
     alertMessage,
     severity,
-    handleOnEditClick,
+    handleOnBackClick,
     handleOnDeleteClick,
     handleOnConfirm,
     handleOnCancel,
@@ -46,12 +46,12 @@ function RecipesInfoView() {
           <Grid item>
             <Button
               variant="outlined"
-              startIcon={ICONS[ACTION_BUTTONS.edit.name]}
+              startIcon={ICONS[ACTION_BUTTONS.back.name]}
               size="medium"
-              onClick={handleOnEditClick}
+              onClick={handleOnBackClick}
               disabled={isDeleting || Boolean(alertMessage)}
             >
-              {ACTION_BUTTONS.edit.name}
+              Back to List
             </Button>
           </Grid>
           <Grid item>
@@ -103,7 +103,7 @@ function RecipesInfoView() {
         {alertMessage &&
           setTimeout(() => {
             clearNotification();
-          }, 5000)}
+          }, 3000)}
         <Grid container style={{ marginTop: "20px" }}>
           {alertMessage && (
             <BasicAlert message={alertMessage} severity={severity} />

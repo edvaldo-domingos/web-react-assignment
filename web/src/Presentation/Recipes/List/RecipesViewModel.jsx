@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { MainContext } from "../../../ContextProviders/MainContext";
 import GetBrewersDataSource from "../../../Data/DataSource/API/GetBrewersDataSource";
 import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
 import GetBrewersDataRepository from "../../../Domain/Repository/Brewer/GetBrewersRepository";
@@ -11,6 +12,7 @@ import { RECIPES_BAS_ROUTE } from "../../../utils/constants";
 export default function RecipesViewModel() {
   const limit = 5;
   const history = useHistory();
+  const { setAppBarTitle } = useContext(MainContext);
   const [error, setError] = useState(0);
   const [brewerId, setBrewerId] = useState(0);
   const [recipes, setRecipes] = useState([]);
@@ -20,6 +22,10 @@ export default function RecipesViewModel() {
   const [page, setPage] = useState(0);
   const [count, setCount] = useState(0);
   const [rowsPerPage] = useState(5);
+
+  useEffect(() => {
+    setAppBarTitle("Recipes");
+  }, []);
 
   useEffect(() => {
     getRecipes();

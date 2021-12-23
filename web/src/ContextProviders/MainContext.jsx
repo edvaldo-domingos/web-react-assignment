@@ -22,11 +22,12 @@ export const MainContextProvider = ({ children }) => {
   const [recipes, setRecipes] = useState([]);
   const [brewers, setBrewers] = useState([{ label: "All", value: "all" }]);
   const [error, setError] = useState(0);
+  const [appBarTile, setAppBarTitle] = useState("Recipes");
 
   useEffect(() => {
     const fetchData = async () => {
       await getBrewers();
-      await getRecipes();
+      await getRecipes(0, 0);
     };
 
     fetchData();
@@ -34,7 +35,7 @@ export const MainContextProvider = ({ children }) => {
 
   useEffect(() => {}, [brewers]);
 
-  const getRecipes = async (page = 0) => {
+  const getRecipes = async (page = 0, limit = 0) => {
     const skip = limit * page;
     const { result, error } = await RecipeUseCase.getRecipes({ skip, limit });
 
@@ -62,7 +63,9 @@ export const MainContextProvider = ({ children }) => {
   };
 
   return (
-    <MainContext.Provider value={{ recipes, getRecipes, brewers }}>
+    <MainContext.Provider
+      value={{ recipes, getRecipes, brewers, appBarTile, setAppBarTitle }}
+    >
       {children}
     </MainContext.Provider>
   );

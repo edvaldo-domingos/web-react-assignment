@@ -12,6 +12,8 @@ import { ICONS } from "../utils/icons";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { NAV_ITEMS } from "../utils/constants";
+import { MainContext } from "../ContextProviders/MainContext";
+import { useContext } from "react";
 
 const drawerWidth = 240;
 
@@ -19,7 +21,11 @@ const StyledNavbarWrapper = styled(Box)``;
 
 const StyledAppBar = styled(AppBar)``;
 
-function Navbar({ currentNavItem, children }) {
+function Navbar({ children }) {
+  const { appBarTile } = useContext(MainContext);
+
+  console.log(appBarTile);
+
   return (
     <StyledNavbarWrapper sx={{ display: "flex" }}>
       <StyledAppBar
@@ -32,7 +38,7 @@ function Navbar({ currentNavItem, children }) {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            {currentNavItem}
+            {appBarTile}
           </Typography>
         </Toolbar>
       </StyledAppBar>

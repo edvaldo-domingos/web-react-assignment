@@ -29,6 +29,10 @@ export const ACTION_BUTTONS = {
     cancel: {
         name: "Cancel"
     }
+    ,
+    back: {
+        name: "Back"
+    }
 };
 
 
