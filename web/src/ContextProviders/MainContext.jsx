@@ -21,7 +21,7 @@ export const MainContextProvider = ({ children }) => {
 
   const [recipes, setRecipes] = useState([]);
   const [brewers, setBrewers] = useState([{ label: "All", value: "all" }]);
-  const [error, setError] = useState(0);
+  const [, setError] = useState(0);
   const [appBarTile, setAppBarTitle] = useState("Recipes");
 
   useEffect(() => {

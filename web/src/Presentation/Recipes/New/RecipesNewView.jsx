@@ -25,7 +25,6 @@ function RecipesNewView() {
     handleOnFormChange,
     handleOnConfirm,
     handleOnCancelConfirmDialog,
-    clearNotification,
   } = useViewModel();
 
   const {
@@ -159,10 +158,6 @@ function RecipesNewView() {
           </Grid>
         </Grid>
 
-        {alertMessage &&
-          setTimeout(() => {
-            clearNotification();
-          }, 3000)}
         <Grid container style={{ marginTop: "20px" }}>
           {alertMessage && (
             <BasicAlert message={alertMessage} severity={severity} />

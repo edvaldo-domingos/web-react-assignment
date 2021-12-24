@@ -23,7 +23,6 @@ function BrewersNewView() {
     handleOnFormChange,
     handleOnConfirm,
     handleOnCancelConfirmDialog,
-    clearNotification,
   } = useViewModel();
 
   const { name } = brewer;
@@ -81,10 +80,6 @@ function BrewersNewView() {
           </Grid>
         </Grid>
 
-        {alertMessage &&
-          setTimeout(() => {
-            clearNotification();
-          }, 3000)}
         <Grid container style={{ marginTop: "20px" }}>
           {alertMessage && (
             <BasicAlert message={alertMessage} severity={severity} />

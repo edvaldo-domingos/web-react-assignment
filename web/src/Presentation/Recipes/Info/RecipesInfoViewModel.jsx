@@ -51,6 +51,13 @@ export default function RecipesInfoModel() {
     if (recipe) setRecipe(recipe);
   }, [id, recipes]);
 
+  useEffect(() => {
+    alertMessage &&
+      setTimeout(() => {
+        clearNotification();
+      }, 3000);
+  }, [alertMessage]);
+
   const onDelete = async () => {
     console.log({ UseCase });
     const { result, error } = await UseCase.deleteRecipe(id);

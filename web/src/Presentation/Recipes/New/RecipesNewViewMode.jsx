@@ -42,6 +42,13 @@ export default function RecipesNewViewModel() {
     };
   }, []);
 
+  useEffect(() => {
+    alertMessage &&
+      setTimeout(() => {
+        clearNotification();
+      }, 3000);
+  }, [alertMessage]);
+
   const onSave = async () => {
     const { result, error } = await UseCase.createRecipe(recipe);
 
@@ -140,6 +147,5 @@ export default function RecipesNewViewModel() {
     handleOnCancelClick,
     handleOnConfirm,
     handleOnCancelConfirmDialog,
-    clearNotification,
   };
 }

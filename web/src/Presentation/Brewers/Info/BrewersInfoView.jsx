@@ -18,7 +18,6 @@ function BrewersInfoView() {
     handleOnDeleteClick,
     handleOnConfirm,
     handleOnCancel,
-    clearNotification,
   } = useViewModel();
 
   const { name } = brewer;
@@ -63,10 +62,6 @@ function BrewersInfoView() {
           <p>{name}</p>
         </label>
 
-        {alertMessage &&
-          setTimeout(() => {
-            clearNotification();
-          }, 3000)}
         <Grid container style={{ marginTop: "20px" }}>
           {alertMessage && (
             <BasicAlert message={alertMessage} severity={severity} />

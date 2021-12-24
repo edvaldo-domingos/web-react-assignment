@@ -35,6 +35,13 @@ export default function BrewersNewViewModel() {
     };
   }, []);
 
+  useEffect(() => {
+    alertMessage &&
+      setTimeout(() => {
+        clearNotification();
+      }, 3000);
+  }, [alertMessage]);
+
   const onSave = async () => {
     const { result, error } = await UseCase.createBrewer(brewer);
 

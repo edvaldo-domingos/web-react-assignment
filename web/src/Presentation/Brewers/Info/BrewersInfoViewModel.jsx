@@ -46,6 +46,13 @@ export default function BrewersInfoModel() {
     };
   }, []);
 
+  useEffect(() => {
+    alertMessage &&
+      setTimeout(() => {
+        clearNotification();
+      }, 3000);
+  }, [alertMessage]);
+
   const onDelete = async () => {
     const { result, error } = await DeleteUseCase.deleteBrewer(id);
 
