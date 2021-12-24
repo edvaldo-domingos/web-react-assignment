@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import RecipesView from "./Presentation/Recipes/List/RecipesView";
 import BrewersListView from "./Presentation/Brewers/List/BrewersListView";
 import BrewersInfoView from "./Presentation/Brewers/Info/BrewersInfoView";
+import BrewersNewView from "./Presentation/Brewers/New/BrewersNewView";
 import RecipesInfoView from "./Presentation/Recipes/Info/RecipesInfoView";
 import { MainContextProvider } from "./ContextProviders/MainContext";
 import { BREWERS_BAS_ROUTE, RECIPES_BAS_ROUTE } from "./utils/constants";
@@ -37,6 +38,11 @@ function App() {
               exact
               path={`${BREWERS_BAS_ROUTE}/:id/info`}
               component={BrewersInfoView}
+            />
+            <Route
+              exact
+              path={`${BREWERS_BAS_ROUTE}/new`}
+              component={BrewersNewView}
             />
             <Redirect from="*" to={RECIPES_BAS_ROUTE} />
           </Switch>

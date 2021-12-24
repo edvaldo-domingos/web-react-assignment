@@ -18,4 +18,8 @@ export default class BrewersRepository {
    async getBrewer(id) {
        return await this.dataSource.getBrewer(id);
    }
+
+   async createBrewer(payload) {
+       return await this.dataSource.createBrewer(payload);
+   }
 }

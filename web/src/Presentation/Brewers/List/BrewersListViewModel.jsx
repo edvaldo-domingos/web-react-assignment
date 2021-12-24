@@ -9,7 +9,7 @@ import { BREWERS_BAS_ROUTE } from "../../../utils/constants";
 export default function BrewersListViewModel() {
   const limit = 5;
   const history = useHistory();
-  // const { setAppBarTitle } = useContext(MainContext);
+  const { setAppBarTitle } = useContext(MainContext);
   const [error, setError] = useState(0);
   const [brewers, setBrewers] = useState([
     { name: "All", value: 0, label: "All", id: 0 },
@@ -19,7 +19,7 @@ export default function BrewersListViewModel() {
   const [rowsPerPage] = useState(5);
 
   useEffect(() => {
-    // setAppBarTitle("Brewers");
+    setAppBarTitle("Brewers");
   }, []);
 
   useEffect(() => {

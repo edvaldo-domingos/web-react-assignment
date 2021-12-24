@@ -24,7 +24,7 @@ export default function BrewersInfoModel() {
   const { setAppBarTitle } = useContext(MainContext);
   const history = useHistory();
   const { id } = useParams();
-  const [error, setError] = useState(null);
+  const [, setError] = useState(null);
   const [brewer, setBrewer] = useState(initialState);
   const [isDeleting, setIsDeleting] = useState(false);
   const [severity, setSeverity] = useState("success");
