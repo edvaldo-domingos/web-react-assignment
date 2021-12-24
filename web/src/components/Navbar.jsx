@@ -15,7 +15,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { NAV_ITEMS, UI_ROUTES } from "../utils/constants";
 import { MainContext } from "../ContextProviders/MainContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -32,8 +32,11 @@ function Navbar({ children }) {
   const setActiveItem = (navItemName) => {
     setActiveNavItem(navItemName);
     setAppBarTitle(_.capitalize(navItemName));
-    history.push(`${UI_ROUTES[navItemName]}`);
   };
+
+  useEffect(() => {
+    history.push(`${UI_ROUTES[activeNavItem]}`);
+  }, [activeNavItem]);
 
   return (
     <StyledNavbarWrapper sx={{ display: "flex" }}>

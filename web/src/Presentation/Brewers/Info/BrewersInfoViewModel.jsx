@@ -1,40 +1,43 @@
 import { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { MainContext } from "../../../ContextProviders/MainContext";
-import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
-import DeleteRecipeUseCase from "../../../Domain/UseCase/Recipe/DeleteRecipeUseCase";
-import RecipesRepository from "../../../Domain/Repository/Recipe/RecipesRepository";
-import { RECIPES_BAS_ROUTE } from "../../../utils/constants";
+import BrewersDataSource from "../../../Data/DataSource/API/BrewersDataSource";
+import DeleteBrewerUseCase from "../../../Domain/UseCase/Brewer/DeleteBrewerUseCase";
+import GetBrewerUseCase from "../../../Domain/UseCase/Brewer/GetBrewerUseCase";
+import BrewersRepository from "../../../Domain/Repository/Brewer/BrewersRepository";
+import { BREWERS_BAS_ROUTE } from "../../../utils/constants";
 
-export default function RecipesInfoModel() {
+export default function BrewersInfoModel() {
   const initialState = {
-    title: "",
-    description: "",
-    bean_type: "",
-    brew_time: 0,
-    brew_method: "",
-    taste_notes: "",
-    tags: "",
+    name: "",
     id: 0,
-    brewer_id: 0,
-    brewer: "",
   };
 
-  const UseCase = new DeleteRecipeUseCase(
-    new RecipesRepository(new RecipesDataSource())
+  const DeleteUseCase = new DeleteBrewerUseCase(
+    new BrewersRepository(new BrewersDataSource())
   );
 
-  const { recipes, setAppBarTitle } = useContext(MainContext);
+  const GetUseCase = new GetBrewerUseCase(
+    new BrewersRepository(new BrewersDataSource())
+  );
+
+  const { setAppBarTitle } = useContext(MainContext);
   const history = useHistory();
   const { id } = useParams();
   const [error, setError] = useState(null);
-  const [recipe, setRecipe] = useState(initialState);
+  const [brewer, setBrewer] = useState(initialState);
   const [isDeleting, setIsDeleting] = useState(false);
   const [severity, setSeverity] = useState("success");
   const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
-    setAppBarTitle("Recipe Detail");
+    setAppBarTitle("Brewer Detail");
+
+    const fetchData = async () => {
+      await getBrewer();
+    };
+
+    fetchData();
 
     return () => {
       setAlertMessage("");
@@ -43,22 +46,23 @@ export default function RecipesInfoModel() {
     };
   }, []);
 
-  useEffect(() => {
-    const recipe = (recipes || []).find(
-      (contextRecipe) => contextRecipe.id === parseInt(id, 10)
-    );
-
-    if (recipe) setRecipe(recipe);
-  }, [id, recipes]);
-
   const onDelete = async () => {
-    console.log({ UseCase });
-    const { result, error } = await UseCase.deleteRecipe(id);
+    const { result, error } = await DeleteUseCase.deleteBrewer(id);
 
     if (result) {
       setIsDeleting(!isDeleting);
-      setAlertMessage("Successfully deleted recipe");
+      setAlertMessage("Successfully deleted brewer");
       setSeverity("success");
+    }
+
+    setError(error);
+  };
+
+  const getBrewer = async () => {
+    const { result, error } = await GetUseCase.getBrewer(id);
+
+    if (result) {
+      setBrewer(result);
     }
 
     setError(error);
@@ -68,11 +72,11 @@ export default function RecipesInfoModel() {
     setAlertMessage("");
     setSeverity("");
     setIsDeleting(false);
-    history.replace(`${RECIPES_BAS_ROUTE}`);
+    history.replace(`${BREWERS_BAS_ROUTE}`);
   };
 
   const handleOnBackClick = () => {
-    history.push(`${RECIPES_BAS_ROUTE}`);
+    history.push(`${BREWERS_BAS_ROUTE}`);
   };
 
   const handleOnDeleteClick = () => {
@@ -87,7 +91,7 @@ export default function RecipesInfoModel() {
   };
 
   return {
-    recipe,
+    brewer,
     isDeleting,
     alertMessage,
     severity,

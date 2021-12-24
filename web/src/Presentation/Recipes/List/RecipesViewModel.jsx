@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { MainContext } from "../../../ContextProviders/MainContext";
-import GetBrewersDataSource from "../../../Data/DataSource/API/BrewersDataSource";
+import BrewersDataSource from "../../../Data/DataSource/API/BrewersDataSource";
 import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
-import GetBrewersDataRepository from "../../../Domain/Repository/Brewer/GetBrewersRepository";
-import GetRecipesDataRepository from "../../../Domain/Repository/Recipe/RecipesRepository";
 import GetBrewersUseCase from "../../../Domain/UseCase/Brewer/GetBrewersUseCase";
 import GetRecipesUseCase from "../../../Domain/UseCase/Recipe/GetRecipesUseCase";
+import BrewersRepository from "../../../Domain/Repository/Brewer/BrewersRepository";
+import RecipesRepository from "../../../Domain/Repository/Recipe/RecipesRepository";
 import { RECIPES_BAS_ROUTE } from "../../../utils/constants";
 
 export default function RecipesViewModel() {
@@ -37,11 +37,11 @@ export default function RecipesViewModel() {
   }, [brewerId]);
 
   const UseCase = new GetRecipesUseCase(
-    new GetRecipesDataRepository(new RecipesDataSource())
+    new RecipesRepository(new RecipesDataSource())
   );
 
   const BrewerUseCase = new GetBrewersUseCase(
-    new GetBrewersDataRepository(new GetBrewersDataSource())
+    new BrewersRepository(new BrewersDataSource())
   );
 
   const getRecipes = async () => {

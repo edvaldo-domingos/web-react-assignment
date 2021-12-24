@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { MainContext } from "../../../ContextProviders/MainContext";
-import GetBrewersDataSource from "../../../Data/DataSource/API/BrewersDataSource";
-import GetBrewersDataRepository from "../../../Domain/Repository/Brewer/GetBrewersRepository";
+import BrewersDataSource from "../../../Data/DataSource/API/BrewersDataSource";
 import GetBrewersUseCase from "../../../Domain/UseCase/Brewer/GetBrewersUseCase";
+import BrewersRepository from "../../../Domain/Repository/Brewer/BrewersRepository";
 import { BREWERS_BAS_ROUTE } from "../../../utils/constants";
 
 export default function BrewersListViewModel() {
@@ -27,7 +27,7 @@ export default function BrewersListViewModel() {
   }, [page]);
 
   const BrewerUseCase = new GetBrewersUseCase(
-    new GetBrewersDataRepository(new GetBrewersDataSource())
+    new BrewersRepository(new BrewersDataSource())
   );
 
   const getBrewers = async () => {

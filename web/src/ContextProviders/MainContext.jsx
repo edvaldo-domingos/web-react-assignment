@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import RecipesDataSource from "../Data/DataSource/API/RecipesDataSource";
 import RecipesDataRepository from "../Domain/Repository/Recipe/RecipesRepository";
+import BrewersRepository from "../Domain/Repository/Brewer/BrewersRepository";
 import GetRecipesUseCase from "../Domain/UseCase/Recipe/GetRecipesUseCase";
 import GetBrewersUseCase from "../Domain/UseCase/Brewer/GetBrewersUseCase";
-import BrewersDataRepository from "../Domain/Repository/Brewer/GetBrewersRepository";
 import BrewersDataSource from "../Data/DataSource/API/BrewersDataSource";
 
 export const MainContext = createContext({});
@@ -16,7 +16,7 @@ export const MainContextProvider = ({ children }) => {
   );
 
   const BrewerUseCase = new GetBrewersUseCase(
-    new BrewersDataRepository(new BrewersDataSource())
+    new BrewersRepository(new BrewersDataSource())
   );
 
   const [recipes, setRecipes] = useState([]);

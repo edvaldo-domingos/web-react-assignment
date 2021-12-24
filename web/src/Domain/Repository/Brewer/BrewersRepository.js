@@ -1,5 +1,5 @@
 
-export default class GetBrewersDataRepository {
+export default class BrewersRepository {
     dataSource = null;
 
    constructor(_dataSource){
@@ -9,5 +9,13 @@ export default class GetBrewersDataRepository {
    
    async getBrewers(paginationParams) {
        return await this.dataSource.getBrewers(paginationParams);
+   }
+
+   async deleteBrewer(id) {
+    return await this.dataSource.deleteBrewer(id);
+}
+
+   async getBrewer(id) {
+       return await this.dataSource.getBrewer(id);
    }
 }
