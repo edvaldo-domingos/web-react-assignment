@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { MainContext } from "../../../ContextProviders/MainContext";
-import GetBrewersDataSource from "../../../Data/DataSource/API/GetBrewersDataSource";
+import GetBrewersDataSource from "../../../Data/DataSource/API/BrewersDataSource";
 import RecipesDataSource from "../../../Data/DataSource/API/RecipesDataSource";
 import GetBrewersDataRepository from "../../../Domain/Repository/Brewer/GetBrewersRepository";
 import GetRecipesDataRepository from "../../../Domain/Repository/Recipe/RecipesRepository";

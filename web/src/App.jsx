@@ -7,9 +7,10 @@ import {
 import { CssBaseline } from "@material-ui/core";
 import Navbar from "./components/Navbar";
 import RecipesView from "./Presentation/Recipes/List/RecipesView";
+import BrewersListView from "./Presentation/Brewers/List/BrewersListView";
 import RecipesInfoView from "./Presentation/Recipes/Info/RecipesInfoView";
 import { MainContextProvider } from "./ContextProviders/MainContext";
-import { RECIPES_BAS_ROUTE } from "./utils/constants";
+import { BREWERS_BAS_ROUTE, RECIPES_BAS_ROUTE } from "./utils/constants";
 import RecipesNewView from "./Presentation/Recipes/New/RecipesNewView";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
               path={`${RECIPES_BAS_ROUTE}/:id/info`}
               component={RecipesInfoView}
             />
+            <Route exact path={BREWERS_BAS_ROUTE} component={BrewersListView} />
             <Redirect from="*" to={RECIPES_BAS_ROUTE} />
           </Switch>
         </Navbar>

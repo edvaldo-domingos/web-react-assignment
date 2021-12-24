@@ -4,7 +4,7 @@ import RecipesDataRepository from "../Domain/Repository/Recipe/RecipesRepository
 import GetRecipesUseCase from "../Domain/UseCase/Recipe/GetRecipesUseCase";
 import GetBrewersUseCase from "../Domain/UseCase/Brewer/GetBrewersUseCase";
 import BrewersDataRepository from "../Domain/Repository/Brewer/GetBrewersRepository";
-import BrewersDataSource from "../Data/DataSource/API/GetBrewersDataSource";
+import BrewersDataSource from "../Data/DataSource/API/BrewersDataSource";
 
 export const MainContext = createContext({});
 

@@ -89,3 +89,8 @@ export const BREWERS_BAS_ROUTE = "/brewers"
 export const BASE_API_URL = "http://localhost:8080";
 export const BREWER_API_URL = `${BASE_API_URL}/brewers`;
 export const RECIPE_API_URL = `${BASE_API_URL}/recipes`;
+
+export const UI_ROUTES = {
+  [NAV_ITEMS.recipes.name] : RECIPES_BAS_ROUTE,
+  [NAV_ITEMS.users.name] : BREWERS_BAS_ROUTE
+}
