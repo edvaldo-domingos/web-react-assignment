@@ -12,6 +12,7 @@ import FormTextField from "../../../components/FormTextField";
 function BrewersNewView() {
   const {
     brewer,
+    errorMessage,
     error,
     confirmMessage,
     isSaving,
@@ -81,8 +82,11 @@ function BrewersNewView() {
         </Grid>
 
         <Grid container style={{ marginTop: "20px" }}>
-          {alertMessage && (
-            <BasicAlert message={alertMessage} severity={severity} />
+          {(alertMessage || errorMessage) && (
+            <BasicAlert
+              message={alertMessage || errorMessage}
+              severity={severity}
+            />
           )}
         </Grid>
       </Paper>

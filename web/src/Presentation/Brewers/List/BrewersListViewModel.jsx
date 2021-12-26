@@ -10,21 +10,30 @@ export default function BrewersListViewModel() {
   const limit = 5;
   const history = useHistory();
   const { setAppBarTitle } = useContext(MainContext);
-  const [error, setError] = useState(0);
+  const [error, setError] = useState(null);
   const [brewers, setBrewers] = useState([
     { name: "All", value: 0, label: "All", id: 0 },
   ]);
   const [page, setPage] = useState(0);
   const [count, setCount] = useState(0);
   const [rowsPerPage] = useState(5);
+  const [severity, setSeverity] = useState("success");
 
   useEffect(() => {
-    setAppBarTitle("Brewers");
+    setAppBarTitle && setAppBarTitle("Brewers");
   }, []);
 
   useEffect(() => {
     getBrewers();
   }, [page]);
+
+  useEffect(() => {
+    error &&
+      setTimeout(() => {
+        setError("");
+        setSeverity("success");
+      }, 5000);
+  }, [error]);
 
   const BrewerUseCase = new GetBrewersUseCase(
     new BrewersRepository(new BrewersDataSource())
@@ -35,7 +44,10 @@ export default function BrewersListViewModel() {
     const { result, error } = await BrewerUseCase.getBrewers({ skip, limit });
 
     if (result && result.length > 0) setBrewers(result);
-    setError(error);
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const getBrewersCount = async () => {
@@ -46,7 +58,10 @@ export default function BrewersListViewModel() {
     if (result && result.length > 0) {
       setCount(result.length);
     }
-    setError(error);
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -63,6 +78,8 @@ export default function BrewersListViewModel() {
 
   return {
     page,
+    error,
+    severity,
     count,
     rowsPerPage,
     brewers,

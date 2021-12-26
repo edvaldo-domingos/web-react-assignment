@@ -13,9 +13,11 @@ export default function RecipesViewModel() {
   const limit = 5;
   const history = useHistory();
   const { setAppBarTitle } = useContext(MainContext);
-  const [error, setError] = useState(0);
+  const [error, setError] = useState(null);
   const [brewerId, setBrewerId] = useState(0);
   const [recipes, setRecipes] = useState([]);
+  const [severity, setSeverity] = useState("success");
+
   const [brewers, setBrewers] = useState([
     { name: "All", value: 0, label: "All", id: 0 },
   ]);
@@ -24,7 +26,7 @@ export default function RecipesViewModel() {
   const [rowsPerPage] = useState(5);
 
   useEffect(() => {
-    setAppBarTitle("Recipes");
+    setAppBarTitle && setAppBarTitle("Recipes");
   }, []);
 
   useEffect(() => {
@@ -35,6 +37,14 @@ export default function RecipesViewModel() {
     setPage(0);
     handleFilterRecipes();
   }, [brewerId]);
+
+  useEffect(() => {
+    error &&
+      setTimeout(() => {
+        setError("");
+        setSeverity("success");
+      }, 5000);
+  }, [error]);
 
   const UseCase = new GetRecipesUseCase(
     new RecipesRepository(new RecipesDataSource())
@@ -48,8 +58,11 @@ export default function RecipesViewModel() {
     const skip = limit * page;
     const { result, error } = await UseCase.getRecipes({ skip, limit });
 
-    if (result && result.length > 0) setRecipes(result);
-    setError(error);
+    if (result && result.length > 0) return setRecipes(result);
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const getBrewers = async () => {
@@ -67,9 +80,13 @@ export default function RecipesViewModel() {
       mappedBrewers.unshift({ name: "All", value: 0, label: "All", id: 0 });
       setCount(mappedBrewers.length);
 
-      setBrewers(mappedBrewers);
+      return setBrewers(mappedBrewers);
     }
-    setError(error);
+
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const getRecipesCount = async () => {
@@ -80,7 +97,11 @@ export default function RecipesViewModel() {
     if (result && result.length > 0) {
       setCount(result.length);
     }
-    setError(error);
+
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const handleFilterRecipes = async () => {
@@ -114,6 +135,7 @@ export default function RecipesViewModel() {
   return {
     recipes,
     error,
+    severity,
     page,
     rowsPerPage,
     count,

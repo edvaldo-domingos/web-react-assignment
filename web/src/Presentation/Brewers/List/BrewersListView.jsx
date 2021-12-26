@@ -14,6 +14,8 @@ import { v4 as uuidv4 } from "uuid";
 import { ICONS } from "../../../utils/icons";
 import { ACTION_BUTTONS } from "../../../utils/constants";
 import IconButton from "@mui/material/IconButton";
+import { Grid } from "@material-ui/core";
+import BasicAlert from "../../../components/Alert";
 
 const StyledTableCell = styled(TableCell)``;
 const StyledTableRow = styled(TableRow)``;
@@ -27,6 +29,8 @@ const StyledTableHead = styled(TableHead)`
 function BrewersListView() {
   const {
     page,
+    error,
+    severity,
     count,
     rowsPerPage,
     brewers,
@@ -124,6 +128,9 @@ function BrewersListView() {
           page={page}
           onPageChange={handleChangePage}
         />
+        <Grid container style={{ marginTop: "20px" }}>
+          {error && <BasicAlert message={error} severity={severity} />}
+        </Grid>
       </Paper>
     </ViewWrapper>
   );

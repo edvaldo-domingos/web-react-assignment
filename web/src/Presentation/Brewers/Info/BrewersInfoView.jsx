@@ -11,6 +11,7 @@ import BasicAlert from "../../../components/Alert";
 function BrewersInfoView() {
   const {
     brewer,
+    error,
     isDeleting,
     alertMessage,
     severity,
@@ -63,8 +64,8 @@ function BrewersInfoView() {
         </label>
 
         <Grid container style={{ marginTop: "20px" }}>
-          {alertMessage && (
-            <BasicAlert message={alertMessage} severity={severity} />
+          {(alertMessage || error) && (
+            <BasicAlert message={alertMessage || error} severity={severity} />
           )}
         </Grid>
       </Paper>

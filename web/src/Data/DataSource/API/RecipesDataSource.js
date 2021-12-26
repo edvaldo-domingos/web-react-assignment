@@ -1,57 +1,74 @@
 import axios from "axios";
-import {headers} from '../../../utils/api'
-import {BREWER_API_URL, RECIPE_API_URL} from '../../../utils/constants'
+import { headers } from "../../../utils/api";
+import { BREWER_API_URL, RECIPE_API_URL } from "../../../utils/constants";
 
 export default class RecipesDataSource {
-    dataSource = null;
+  dataSource = null;
 
-   constructor(_dataSource){
-       this.dataSource = _dataSource;
-   }
+  constructor(_dataSource) {
+    this.dataSource = _dataSource;
+  }
 
-   async getRecipes({skip = 0, limit = undefined}) {
-       try {
-           const url = `${RECIPE_API_URL}/?skip=${skip}${limit ? "&limit=" + limit:""}`;
-           const {data} = await axios.get(url, {
-               headers
-           });
+  async getRecipes({ skip = 0, limit = undefined }) {
+    try {
+      const url = `${RECIPE_API_URL}/?skip=${skip}${
+        limit ? "&limit=" + limit : ""
+      }`;
+      const { data } = await axios.get(url, {
+        headers,
+      });
+      return { result: data, error: null };
+    } catch (error) {
+      console.log(error);
+      return {
+        result: null,
+        error:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Failed to get recipes",
+      };
+    }
+  }
 
-           return {result: data, error: null }
-       } catch (error) {
-           console.log(error);
-           return {result : null, error}
-       }
-       
-   }
+  async deleteRecipe(id) {
+    try {
+      const url = `${RECIPE_API_URL}/${id}`;
+      const { data } = await axios.delete(url, {
+        headers,
+      });
 
-   async deleteRecipe(id) {
-       try {
-           const url = `${RECIPE_API_URL}/${id}`;
-           const {data} = await axios.delete(url, {
-               headers
-           });
+      return { result: data, error: null };
+    } catch (error) {
+      console.log(error);
+      return {
+        result: null,
+        error:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Failed to delete recipe",
+      };
+    }
+  }
 
-           return {result: data, error: null }
-       } catch (error) {
-           console.log(error);
-           return {result : null, error}
-       }
-       
-   }
+  async createRecipe(payload) {
+    try {
+      const url = `${BREWER_API_URL}/${payload.brewer_id}/recipes`;
+      const { data } = await axios.post(url, payload, {
+        headers,
+      });
 
-   async createRecipe(payload) {
-       try {
-           const url = `${BREWER_API_URL}/${payload.brewer_id}/recipes`;
-           const {data} = await axios.post(url, payload,{
-               headers
-           });
+      throw new Error("failed");
 
-           return {result: data, error: null }
-       } catch (error) {
-           console.log(error);
-           return {result : null, error}
-       }
-       
-   }
-
+      return { result: data, error: null };
+    } catch (error) {
+      console.log(error);
+      return {
+        result: null,
+        error:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Failed to create recipe",
+      };
+    }
+  }
 }

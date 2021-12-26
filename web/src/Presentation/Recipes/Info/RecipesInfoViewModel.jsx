@@ -34,7 +34,7 @@ export default function RecipesInfoModel() {
   const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
-    setAppBarTitle("Recipe Detail");
+    setAppBarTitle && setAppBarTitle("Recipe Detail");
 
     return () => {
       setAlertMessage("");
@@ -58,8 +58,17 @@ export default function RecipesInfoModel() {
       }, 3000);
   }, [alertMessage]);
 
+  useEffect(() => {
+    error &&
+      setTimeout(() => {
+        setError("");
+        setSeverity("success");
+        setAlertMessage("");
+        setIsDeleting(false);
+      }, 5000);
+  }, [error]);
+
   const onDelete = async () => {
-    console.log({ UseCase });
     const { result, error } = await UseCase.deleteRecipe(id);
 
     if (result) {
@@ -68,7 +77,10 @@ export default function RecipesInfoModel() {
       setSeverity("success");
     }
 
-    setError(error);
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const clearNotification = () => {
@@ -95,6 +107,7 @@ export default function RecipesInfoModel() {
 
   return {
     recipe,
+    error,
     isDeleting,
     alertMessage,
     severity,

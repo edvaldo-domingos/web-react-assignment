@@ -26,7 +26,8 @@ export default function RecipesNewViewModel() {
   const history = useHistory();
   const { brewers, getRecipes, setAppBarTitle } = useContext(MainContext);
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [recipe, setRecipe] = useState(initialState);
   const [isSaving, setIsSaving] = useState(false);
   const [severity, setSeverity] = useState("success");
@@ -34,7 +35,7 @@ export default function RecipesNewViewModel() {
   const [confirmMessage, setConfirmMessage] = useState("");
 
   useEffect(() => {
-    setAppBarTitle("Create a New Recipe");
+    setAppBarTitle && setAppBarTitle("Create a New Recipe");
     return () => {
       setAlertMessage("");
       setSeverity("");
@@ -49,8 +50,18 @@ export default function RecipesNewViewModel() {
       }, 3000);
   }, [alertMessage]);
 
+  useEffect(() => {
+    errorMessage &&
+      setTimeout(() => {
+        setErrorMessage("");
+        setSeverity("success");
+        setAlertMessage("");
+        setIsSaving(false);
+      }, 5000);
+  }, [errorMessage]);
+
   const onSave = async () => {
-    const { result, error } = await UseCase.createRecipe(recipe);
+    const { result, error: errorMessage } = await UseCase.createRecipe(recipe);
 
     if (result) {
       await getRecipes();
@@ -59,7 +70,10 @@ export default function RecipesNewViewModel() {
       setSeverity("success");
     }
 
-    setError(error);
+    if (errorMessage) {
+      setErrorMessage(errorMessage);
+      setSeverity("error");
+    }
   };
 
   const clearNotification = () => {
@@ -92,8 +106,12 @@ export default function RecipesNewViewModel() {
       }
     }
 
-    setError(errorObj);
-    return !Object.keys(errorObj).length > 0;
+    const hasError = Object.keys(errorObj).length > 0;
+
+    if (hasError) {
+      setError(errorObj);
+    }
+    return !hasError;
   };
 
   const handleOnFormChange = (event) => {
@@ -134,12 +152,13 @@ export default function RecipesNewViewModel() {
 
   return {
     recipe,
+    error,
+    errorMessage,
     brewers,
     confirmMessage,
     isSaving,
     alertMessage,
     severity,
-    error,
     isFormEdited,
     setIsSaving,
     handleOnFormChange,

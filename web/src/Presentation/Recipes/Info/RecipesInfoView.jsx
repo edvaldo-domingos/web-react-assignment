@@ -11,6 +11,7 @@ import BasicAlert from "../../../components/Alert";
 function RecipesInfoView() {
   const {
     recipe,
+    error,
     isDeleting,
     alertMessage,
     severity,
@@ -100,8 +101,8 @@ function RecipesInfoView() {
         </label>
 
         <Grid container style={{ marginTop: "20px" }}>
-          {alertMessage && (
-            <BasicAlert message={alertMessage} severity={severity} />
+          {(alertMessage || error) && (
+            <BasicAlert message={alertMessage || error} severity={severity} />
           )}
         </Grid>
       </Paper>

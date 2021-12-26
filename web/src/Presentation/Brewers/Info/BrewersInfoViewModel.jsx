@@ -24,14 +24,14 @@ export default function BrewersInfoModel() {
   const { setAppBarTitle } = useContext(MainContext);
   const history = useHistory();
   const { id } = useParams();
-  const [, setError] = useState(null);
+  const [error, setError] = useState(null);
   const [brewer, setBrewer] = useState(initialState);
   const [isDeleting, setIsDeleting] = useState(false);
   const [severity, setSeverity] = useState("success");
   const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
-    setAppBarTitle("Brewer Detail");
+    setAppBarTitle && setAppBarTitle("Brewer Detail");
 
     const fetchData = async () => {
       await getBrewer();
@@ -53,6 +53,16 @@ export default function BrewersInfoModel() {
       }, 3000);
   }, [alertMessage]);
 
+  useEffect(() => {
+    error &&
+      setTimeout(() => {
+        setError("");
+        setSeverity("success");
+        setAlertMessage("");
+        setIsDeleting(false);
+      }, 5000);
+  }, [error]);
+
   const onDelete = async () => {
     const { result, error } = await DeleteUseCase.deleteBrewer(id);
 
@@ -62,7 +72,10 @@ export default function BrewersInfoModel() {
       setSeverity("success");
     }
 
-    setError(error);
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const getBrewer = async () => {
@@ -72,7 +85,10 @@ export default function BrewersInfoModel() {
       setBrewer(result);
     }
 
-    setError(error);
+    if (error) {
+      setError(error);
+      setSeverity("error");
+    }
   };
 
   const clearNotification = () => {
@@ -99,6 +115,7 @@ export default function BrewersInfoModel() {
 
   return {
     brewer,
+    error,
     isDeleting,
     alertMessage,
     severity,
