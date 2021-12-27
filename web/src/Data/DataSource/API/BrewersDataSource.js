@@ -23,7 +23,7 @@ export default class BrewersDataSource {
       return {
         result: null,
         error:
-          error?.response?.data?.message ||
+          error?.response?.data?.detail ||
           error?.message ||
           "Failed to fetch brewers",
       };
@@ -43,7 +43,7 @@ export default class BrewersDataSource {
       return {
         result: null,
         error:
-          error?.response?.data?.message ||
+          error?.response?.data?.detail ||
           error?.message ||
           "Failed to get brewer",
       };
@@ -63,7 +63,7 @@ export default class BrewersDataSource {
       return {
         result: null,
         error:
-          error?.response?.data?.message ||
+          error?.response?.data?.detail ||
           error?.message ||
           "Failed to delete brewer",
       };
@@ -83,7 +83,7 @@ export default class BrewersDataSource {
       return {
         result: null,
         error:
-          error?.response?.data?.message ||
+          error?.response?.data?.detail ||
           error?.message ||
           "Failed to create brewer",
       };

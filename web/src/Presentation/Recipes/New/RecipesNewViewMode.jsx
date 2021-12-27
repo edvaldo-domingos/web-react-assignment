@@ -149,12 +149,16 @@ export default function RecipesNewViewModel() {
   const handleOnCancelConfirmDialog = () => {
     setConfirmMessage("");
   };
+  const filterBrewers = () => {
+    const filteredBrewers = brewers.filter((brewer) => brewer.value !== "all");
+    return filteredBrewers;
+  };
 
   return {
     recipe,
     error,
     errorMessage,
-    brewers,
+    filterBrewers,
     confirmMessage,
     isSaving,
     alertMessage,

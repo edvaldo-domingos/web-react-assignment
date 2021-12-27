@@ -23,7 +23,7 @@ export default class RecipesDataSource {
       return {
         result: null,
         error:
-          error?.response?.data?.message ||
+          error?.response?.data?.detail ||
           error?.message ||
           "Failed to get recipes",
       };
@@ -43,7 +43,7 @@ export default class RecipesDataSource {
       return {
         result: null,
         error:
-          error?.response?.data?.message ||
+          error?.response?.data?.detail ||
           error?.message ||
           "Failed to delete recipe",
       };
@@ -57,15 +57,13 @@ export default class RecipesDataSource {
         headers,
       });
 
-      throw new Error("failed");
-
       return { result: data, error: null };
     } catch (error) {
       console.log(error);
       return {
         result: null,
         error:
-          error?.response?.data?.message ||
+          error?.response?.data?.detail ||
           error?.message ||
           "Failed to create recipe",
       };

@@ -17,7 +17,7 @@ export default function BrewersNewViewModel() {
   );
 
   const history = useHistory();
-  const { setAppBarTitle } = useContext(MainContext);
+  const { setAppBarTitle, getBrewers } = useContext(MainContext);
 
   const [error, setError] = useState(null);
   const [brewer, setBrewer] = useState(initialState);
@@ -60,6 +60,7 @@ export default function BrewersNewViewModel() {
       setBrewer(result);
       setAlertMessage("Successfully created brewer");
       setSeverity("success");
+      await getBrewers();
     }
 
     if (errorMessage) {

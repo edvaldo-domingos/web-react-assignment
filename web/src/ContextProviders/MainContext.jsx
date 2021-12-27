@@ -33,8 +33,6 @@ export const MainContextProvider = ({ children }) => {
     fetchData();
   }, []);
 
-  useEffect(() => {}, [brewers]);
-
   const getRecipes = async (page = 0, limit = 0) => {
     const skip = limit * page;
     const { result, error } = await RecipeUseCase.getRecipes({ skip, limit });
@@ -64,7 +62,14 @@ export const MainContextProvider = ({ children }) => {
 
   return (
     <MainContext.Provider
-      value={{ recipes, getRecipes, brewers, appBarTile, setAppBarTitle }}
+      value={{
+        recipes,
+        getRecipes,
+        brewers,
+        appBarTile,
+        setAppBarTitle,
+        getBrewers,
+      }}
     >
       {children}
     </MainContext.Provider>

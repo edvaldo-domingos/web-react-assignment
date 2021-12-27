@@ -11,9 +11,7 @@ export default function BrewersListViewModel() {
   const history = useHistory();
   const { setAppBarTitle } = useContext(MainContext);
   const [error, setError] = useState(null);
-  const [brewers, setBrewers] = useState([
-    { name: "All", value: 0, label: "All", id: 0 },
-  ]);
+  const [brewers, setBrewers] = useState([]);
   const [page, setPage] = useState(0);
   const [count, setCount] = useState(0);
   const [rowsPerPage] = useState(5);

@@ -14,7 +14,7 @@ function RecipesNewView() {
   const {
     recipe,
     errorMessage,
-    brewers,
+    filterBrewers,
     error,
     confirmMessage,
     isSaving,
@@ -153,7 +153,7 @@ function RecipesNewView() {
               value={brewer_id}
               name={"brewer_id"}
               label={"Brewer"}
-              options={brewers}
+              options={filterBrewers()}
               error={error?.brewer_id}
             />
           </Grid>
